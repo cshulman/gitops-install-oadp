@@ -1,0 +1,29 @@
+# The bucket, prefix, region & credential name are placeholders that the Argo App
+# (apps_install_oadp role) overrides with kustomize patches.
+# The cloud-credentials secret is created by Ansible, NOT stored in git.
+apiVersion: oadp.openshift.io/v1alpha1
+kind: DataProtectionApplication
+metadata:
+  name: dpa-acm
+  namespace: open-cluster-management-backup
+spec:
+  backupImages: false
+  configuration:
+    velero:
+      defaultPlugins:
+        - openshift
+        - aws
+  backupLocations:
+    - name: default
+      velero:
+        provider: aws
+        default: true
+        objectStorage:
+          bucket: BUCKET_PLACEHOLDER
+          prefix: acm
+        config:
+          region: us-east-2
+          profile: default
+        credential:
+          name: cloud-credentials
+          key: cloud

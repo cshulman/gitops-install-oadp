@@ -1,0 +1,16 @@
+# Failover: same Restore as the passive-hub overlay, with the managed clusters
+# backup set to latest. This makes this hub the new active hub
+apiVersion: cluster.open-cluster-management.io/v1beta1
+kind: Restore
+metadata:
+  name: restore-acm-passive-sync
+  namespace: open-cluster-management-backup
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  veleroCredentialsBackupName: latest
+  veleroResourcesBackupName: latest
+  veleroManagedClustersBackupName: latest
+  syncRestoreWithNewBackups: true
+  restoreSyncInterval: 10m
+  cleanupBeforeRestore: CleanupRestored

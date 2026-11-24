@@ -1,0 +1,13 @@
+apiVersion: cluster.open-cluster-management.io/v1beta1
+kind: BackupSchedule
+metadata:
+  name: schedule-acm
+  namespace: open-cluster-management-backup
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  # Every 10 minutes for the demo, use something like "0 */2 * * *" for real hubs
+  veleroSchedule: "*/10 * * * *"
+  veleroTtl: 120h
+  # Only needed for clusters imported manually (not created by Hive), so the new hub can re-import them
+  # useManagedServiceAccount: true

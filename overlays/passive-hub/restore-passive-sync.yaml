@@ -1,0 +1,16 @@
+# Passive sync: restores credentials & resources every restoreSyncInterval,
+# but NOT the managed clusters, so they stay connected to the active hub
+apiVersion: cluster.open-cluster-management.io/v1beta1
+kind: Restore
+metadata:
+  name: restore-acm-passive-sync
+  namespace: open-cluster-management-backup
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  veleroCredentialsBackupName: latest
+  veleroResourcesBackupName: latest
+  veleroManagedClustersBackupName: skip
+  syncRestoreWithNewBackups: true
+  restoreSyncInterval: 10m
+  cleanupBeforeRestore: CleanupRestored
